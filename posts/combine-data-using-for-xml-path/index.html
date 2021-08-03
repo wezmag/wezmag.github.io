@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="zh">
+    <head>
+		
+		
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+		<title>使用 FOR XML PATH 進行資料合併 &middot; My</title>
+
+		
+  		<link rel="stylesheet" href="/css/style.css">
+		<link rel="stylesheet" href="/css/fonts.css">
+		<link rel="stylesheet" href="/css/custom.css">
+		
+		<link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+		<link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+		<link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+
+		
+		<link href="" rel="alternate" type="application/rss+xml" title="My" />
+	</head>
+
+    <body>
+        		<nav class="nav">
+			<div class="nav-container">
+				<a href="/">
+					<h2 class="nav-title">My</h2>
+				</a>
+				<ul>
+    
+    
+        <li>
+            <a href="/posts/">
+                
+                <span>Posts</span>
+                
+            </a>
+        </li>
+    
+</ul>
+			</div>
+		</nav>
+
+        
+
+<main>
+	<div class="post">
+		<div class="post-info">
+    <span>Written by</span>
+        wezmag
+        <br>
+        <span>on&nbsp;</span><time datetime="2021-07-27 11:03:09 &#43;0800 CST">July 27, 2021</time>
+</div>
+
+		<h1 class="post-title">使用 FOR XML PATH 進行資料合併</h1>
+<div class="post-line"></div>
+
+		
+
+		<p>本篇教你如何使用 FOR XML PATH 的 T-SQL 指定進行資料合併</p>
+<h3 id="資料如下">資料如下:</h3>
+<h4 id="contact">Contact</h4>
+ 
+ 
+
+ 
+ 
+<table class="table-bordered">
+<thead>
+<tr>
+<th>Id</th>
+<th>Name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Wesley</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Smart</td>
+</tr>
+</tbody>
+</table>
+
+
+
+<h4 id="contactphonenumber">ContactPhoneNumber</h4>
+ 
+ 
+
+ 
+ 
+<table class="table-bordered">
+<thead>
+<tr>
+<th>Id</th>
+<th>PhoneNumber</th>
+<th>ContactId</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>0987654321</td>
+<td>1</td>
+</tr>
+<tr>
+<td>2</td>
+<td>0987654322</td>
+<td>1</td>
+</tr>
+<tr>
+<td>3</td>
+<td>0987654323</td>
+<td>2</td>
+</tr>
+</tbody>
+</table>
+
+
+
+<h3 id="預計輸出如下">預計輸出如下:</h3>
+ 
+ 
+
+ 
+ 
+<table class="table-bordered">
+<thead>
+<tr>
+<th>Id</th>
+<th>Name</th>
+<th>PhoneNumbers</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Wesley</td>
+<td>0987654321,0987654322,</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Smart</td>
+<td>0987654323</td>
+</tr>
+</tbody>
+</table>
+
+
+
+<h3 id="sql-語法">SQL 語法</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#66d9ef">SELECT</span> <span style="color:#66d9ef">c</span>.Id, <span style="color:#66d9ef">c</span>.Name,
+	(
+		<span style="color:#66d9ef">SELECT</span> PhoneNumber <span style="color:#f92672">+</span> <span style="color:#e6db74">&#39;,&#39;</span>
+		<span style="color:#66d9ef">FROM</span> ContactPhoneNumber
+		<span style="color:#66d9ef">WHERE</span> ContactId <span style="color:#f92672">=</span> <span style="color:#66d9ef">c</span>.Id
+		<span style="color:#66d9ef">FOR</span> XML PATH(<span style="color:#e6db74">&#39;&#39;</span>)
+	) <span style="color:#66d9ef">AS</span> PhoneNumbers
+<span style="color:#66d9ef">FROM</span> Contact <span style="color:#66d9ef">c</span>
+</code></pre></div>
+
+		
+	</div>
+
+	<div class="pagination">
+		<a href="/posts/protect-api-with-client-credentials-grant-using-openiddict-part-1/" class="right arrow">&#8594;</a>
+
+		<a href="#" class="top">Top</a>
+	</div>
+</main>
+
+
+        		<footer>
+			
+			<span>
+			&copy; <time datetime="2021-08-03 11:44:28.8030452 &#43;0800 CST m=&#43;0.162596601">2021</time> wezmag. Made with <a href='https://gohugo.io'>Hugo</a> using the <a href='https://github.com/EmielH/tale-hugo/'>Tale</a> theme.
+			</span>
+		</footer>
+
+    </body>
+</html>

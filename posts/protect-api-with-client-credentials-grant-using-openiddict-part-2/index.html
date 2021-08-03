@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="zh">
+    <head>
+		
+		
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+		<title>使用 OpenIddict 建立一個支援 Client Credentials Grant 的 Authentication Server 來保護你的 Web API - Part 2 &middot; My</title>
+
+		
+  		<link rel="stylesheet" href="/css/style.css">
+		<link rel="stylesheet" href="/css/fonts.css">
+		<link rel="stylesheet" href="/css/custom.css">
+		
+		<link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+		<link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+		<link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+
+		
+		<link href="" rel="alternate" type="application/rss+xml" title="My" />
+	</head>
+
+    <body>
+        		<nav class="nav">
+			<div class="nav-container">
+				<a href="/">
+					<h2 class="nav-title">My</h2>
+				</a>
+				<ul>
+    
+    
+        <li>
+            <a href="/posts/">
+                
+                <span>Posts</span>
+                
+            </a>
+        </li>
+    
+</ul>
+			</div>
+		</nav>
+
+        
+
+<main>
+	<div class="post">
+		<div class="post-info">
+    <span>Written by</span>
+        wezmag
+        <br>
+        <span>on&nbsp;</span><time datetime="2021-08-02 15:31:00 &#43;0800 CST">August 2, 2021</time>
+</div>
+
+		<h1 class="post-title">使用 OpenIddict 建立一個支援 Client Credentials Grant 的 Authentication Server 來保護你的 Web API - Part 2</h1>
+<div class="post-line"></div>
+
+		
+
+		<p>本篇內容主要講解如何使用 OpenIddict 來建立一個支援 Client Credentials Grant 的 OAuth Authentication Server 來保護你的 Web API。</p>
+<p>內容將會分成兩個部分，第一部分包含方案說明，以及建立 Authentication Server 專案，第二部分則會建立一個 Resource Server (Web API) 專案，及一個 Console App 作為 Client。</p>
+<p>在<a href="/posts/protect-api-with-client-credentials-grant-using-openiddict-part-1">第一部分</a>中，我們已經建立好一個 AuthServer，在這部分，我們將會建立一個 Resource Server (Web API)及一個 Console App 作為 Client。</p>
+<h2 id="resource-server">Resource Server</h2>
+<h3 id="1-開新-web-api-專案">1. 開新 Web API 專案</h3>
+<p>首先，在方案中，新增一個 ASP.NET Core Web API專案，專案名稱為ResourceServer，Authentication Type 為 None。</p>
+<p><img src="Image001.png" alt="Add a new project"></p>
+<p><img src="Image002.png" alt="Configure your new project"></p>
+<p><img src="Image003.png" alt="Additional Information"></p>
+<p>專案建立完成後，直接執行專案，並透過瀏覽器，訪問 WeatherForecast endpoint</p>
+<p>https://localhost:44358/WeatherForecast</p>
+<p><em>port number可能會不同，請自行修改</em></p>
+<p>可以得到下面結果</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json">[{<span style="color:#f92672">&#34;date&#34;</span>:<span style="color:#e6db74">&#34;2021-08-03T16:38:41.6219178+08:00&#34;</span>,<span style="color:#f92672">&#34;temperatureC&#34;</span>:<span style="color:#ae81ff">23</span>,<span style="color:#f92672">&#34;temperatureF&#34;</span>:<span style="color:#ae81ff">73</span>,<span style="color:#f92672">&#34;summary&#34;</span>:<span style="color:#e6db74">&#34;Hot&#34;</span>},{<span style="color:#f92672">&#34;date&#34;</span>:<span style="color:#e6db74">&#34;2021-08-04T16:38:41.6219205+08:00&#34;</span>,<span style="color:#f92672">&#34;temperatureC&#34;</span>:<span style="color:#ae81ff">12</span>,<span style="color:#f92672">&#34;temperatureF&#34;</span>:<span style="color:#ae81ff">53</span>,<span style="color:#f92672">&#34;summary&#34;</span>:<span style="color:#e6db74">&#34;Scorching&#34;</span>},{<span style="color:#f92672">&#34;date&#34;</span>:<span style="color:#e6db74">&#34;2021-08-05T16:38:41.6219208+08:00&#34;</span>,<span style="color:#f92672">&#34;temperatureC&#34;</span>:<span style="color:#ae81ff">-17</span>,<span style="color:#f92672">&#34;temperatureF&#34;</span>:<span style="color:#ae81ff">2</span>,<span style="color:#f92672">&#34;summary&#34;</span>:<span style="color:#e6db74">&#34;Scorching&#34;</span>},{<span style="color:#f92672">&#34;date&#34;</span>:<span style="color:#e6db74">&#34;2021-08-06T16:38:41.6219209+08:00&#34;</span>,<span style="color:#f92672">&#34;temperatureC&#34;</span>:<span style="color:#ae81ff">26</span>,<span style="color:#f92672">&#34;temperatureF&#34;</span>:<span style="color:#ae81ff">78</span>,<span style="color:#f92672">&#34;summary&#34;</span>:<span style="color:#e6db74">&#34;Bracing&#34;</span>},{<span style="color:#f92672">&#34;date&#34;</span>:<span style="color:#e6db74">&#34;2021-08-07T16:38:41.6219211+08:00&#34;</span>,<span style="color:#f92672">&#34;temperatureC&#34;</span>:<span style="color:#ae81ff">11</span>,<span style="color:#f92672">&#34;temperatureF&#34;</span>:<span style="color:#ae81ff">51</span>,<span style="color:#f92672">&#34;summary&#34;</span>:<span style="color:#e6db74">&#34;Scorching&#34;</span>}]
+</code></pre></div><h3 id="2-安裝-openiddictvalidation-套件">2. 安裝 OpenIddict.Validation 套件</h3>
+<p>在這裡因為需要透過 AuthServer 的 introspection endpoint 驗證 access token，OpenIddict 已經將驗證的功能寫好了，我們只需要安裝相關套件並設定就可以使用。</p>
+<p>需要安裝的套件如下：</p>
+<ol>
+<li>OpenIddict.Validation.AspNetCore 3.1.0</li>
+<li>OpenIddict.Validation.SystemNetHttp 3.1.0</li>
+</ol>
+<p><em>版本編號為撰文當下的最新版本</em></p>
+<p>NuGet Package 安裝方式相信大家都很熟悉了，就不另外講解</p>
+<h3 id="3-修改-startupcs">3. 修改 Startup.cs</h3>
+<p>開啟 Startup.cs，並進行以下修改：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#66d9ef">using</span> OpenIddict.Validation.AspNetCore;
+</code></pre></div><p>ConfigureServices</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#75715e">// 加入 Authentication，DefaultScheme 設定為 OpenIddict AuthenticationScheme
+</span><span style="color:#75715e"></span>services.AddAuthentication(options =&gt;
+{
+    options.DefaultScheme = OpenIddictValidationAspNetCoreDefaults.AuthenticationScheme;
+});
+
+<span style="color:#75715e">// 加入 OpenIddict validation
+</span><span style="color:#75715e"></span>services.AddOpenIddict()
+    .AddValidation(options =&gt;
+    {
+        <span style="color:#75715e">// AuthServer 網址
+</span><span style="color:#75715e"></span>        options.SetIssuer(<span style="color:#e6db74">&#34;https://localhost:44337/&#34;</span>);
+
+        <span style="color:#75715e">// 使用前篇設定 introspection 的 clientid/clientsecret
+</span><span style="color:#75715e"></span>        options.UseIntrospection()
+                .SetClientId(<span style="color:#e6db74">&#34;resource_server&#34;</span>)
+                .SetClientSecret(<span style="color:#e6db74">&#34;846B62D0-DEF9-4215-A99D-86E6B8DAB342&#34;</span>);
+
+        options.UseSystemNetHttp();
+        options.UseAspNetCore();
+    });
+
+services.AddControllers();
+<span style="color:#75715e">// 加入 Authorization
+</span><span style="color:#75715e"></span>services.AddAuthorization();
+</code></pre></div><p>Configure 區段，需要在<code>app.UseRouting()</code>後面，加上</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp">app.UseAuthentication();
+</code></pre></div><h3 id="4-修改-weatherforecastcontrollercs">4. 修改 WeatherForecastController.cs</h3>
+<p>接著需要修改 WeatherForecastController，在Get method上面加上 AuthorizeAttribute</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#66d9ef">using</span> Microsoft.AspNetCore.Authorization;
+<span style="color:#66d9ef">using</span> OpenIddict.Validation.AspNetCore;
+</code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#a6e22e">[HttpGet]</span>
+<span style="color:#75715e">//加入下面這行
+</span><span style="color:#75715e"></span><span style="color:#a6e22e">[Authorize(AuthenticationSchemes = OpenIddictValidationAspNetCoreDefaults.AuthenticationScheme)]</span>
+<span style="color:#66d9ef">public</span> IEnumerable&lt;WeatherForecast&gt; Get()
+{
+    <span style="color:#75715e">// ... 省略
+</span><span style="color:#75715e"></span>}
+</code></pre></div><h3 id="5-執行專案並測試">5. 執行專案並測試</h3>
+<p>再完成前面的修改後，再次執行專案，並透過瀏覽器，訪問 WeatherForecast endpoint</p>
+<p>https://localhost:44358/WeatherForecast</p>
+<p><em>port number可能會不同，請自行修改</em></p>
+<p>這時候你會看到應該是錯誤頁面，HTTP CODE 為 401 Unauthorized</p>
+<p><img src="Image004.png" alt="401 Error"></p>
+<p>這樣就表示我們的 Weatherforecast endpoint 需要有 access token 才能存取。</p>
+<p>Resource Server 專案算是告一段落。</p>
+<h2 id="console-app">Console App</h2>
+<p>再來，我們要新增一個 Console App 作為 Client 來測試 AuthServer 取得 access token，並呼叫 Resource Server取得資源。</p>
+<h3 id="1-開新-console-application-專案">1. 開新 Console Application 專案</h3>
+<p>在方案中，新增一個 Console Application 專案，專案名稱為 ConsoleApp。</p>
+<p><img src="Image005.png" alt="Add a new project">
+<img src="Image006.png" alt="Configure your new project"></p>
+<h3 id="2-安裝-openiddictabstractions-套件">2. 安裝 OpenIddict.Abstractions 套件</h3>
+<p>這個步驟需要安裝 OpenIddict.Abstractions 3.1.0 這個 NuGet 套件</p>
+<p><em>版本編號為撰文當下的最新版本</em></p>
+<p>NuGet package 安裝方式相信大家都很熟悉了，就不另外講解</p>
+<h3 id="3-修改-programcs">3. 修改 Program.cs</h3>
+<p>打開 Program.cs，並修改成下面的程式碼。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#66d9ef">using</span> OpenIddict.Abstractions;
+<span style="color:#66d9ef">using</span> System;
+<span style="color:#66d9ef">using</span> System.Collections.Generic;
+<span style="color:#66d9ef">using</span> System.Net.Http;
+<span style="color:#66d9ef">using</span> System.Net.Http.Headers;
+<span style="color:#66d9ef">using</span> System.Net.Http.Json;
+<span style="color:#66d9ef">using</span> System.Text;
+<span style="color:#66d9ef">using</span> System.Threading.Tasks;
+
+<span style="color:#66d9ef">namespace</span> ConsoleApp
+{
+    <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Program</span>
+    {
+        <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">async</span> Task Main(<span style="color:#66d9ef">string</span>[] args)
+        {
+            Console.WriteLine(<span style="color:#e6db74">&#34;Step 1: Get access token from AuthServer&#34;</span>);
+            Console.WriteLine(<span style="color:#e6db74">&#34;Press enter to continune.&#34;</span>);
+            Console.ReadLine();
+            <span style="color:#66d9ef">using</span> var client = <span style="color:#66d9ef">new</span> HttpClient();
+            <span style="color:#66d9ef">var</span> token = <span style="color:#66d9ef">string</span>.Empty;
+            <span style="color:#66d9ef">try</span>
+            {
+                <span style="color:#75715e">//取得Access Token
+</span><span style="color:#75715e"></span>                token = <span style="color:#66d9ef">await</span> GetTokenAsync(client);
+                Console.WriteLine(<span style="color:#e6db74">&#34;Access token: {0}&#34;</span>, token);
+                Console.WriteLine();
+            }
+            <span style="color:#66d9ef">catch</span> (HttpRequestException exception)
+            {
+                Console.WriteLine(BuildExceptionMessage(exception));
+            }
+
+            Console.WriteLine(<span style="color:#e6db74">&#34;Step 2: Call Weather API endpoint&#34;</span>);
+            Console.WriteLine(<span style="color:#e6db74">&#34;Press enter to continune.&#34;</span>);
+            Console.ReadLine();
+
+            <span style="color:#66d9ef">try</span>
+            {
+                <span style="color:#75715e">//呼叫 Weather API
+</span><span style="color:#75715e"></span>                <span style="color:#66d9ef">var</span> resource = <span style="color:#66d9ef">await</span> GetResourceAsync(client, token);
+                Console.WriteLine(<span style="color:#e6db74">&#34;API response from WeatherForecastController: {0}&#34;</span>, resource);
+
+            }
+            <span style="color:#66d9ef">catch</span> (HttpRequestException exception)
+            {
+                Console.WriteLine(BuildExceptionMessage(exception));
+            }
+
+            Console.WriteLine(<span style="color:#e6db74">&#34;Press enter to finish.&#34;</span>);
+            Console.ReadLine();
+        }
+
+        <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">string</span> BuildExceptionMessage(HttpRequestException exception)
+        {
+            <span style="color:#66d9ef">var</span> builder = <span style="color:#66d9ef">new</span> StringBuilder();
+            builder.AppendLine(<span style="color:#e6db74">&#34;+++++++++++++++++++++&#34;</span>);
+            builder.AppendLine(exception.Message);
+            builder.AppendLine(exception.InnerException?.Message);
+            builder.AppendLine(<span style="color:#e6db74">&#34;+++++++++++++++++++++&#34;</span>);
+            <span style="color:#66d9ef">return</span> builder.ToString();
+        }
+
+        <span style="color:#75715e">// 取得 access token
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">async</span> Task&lt;<span style="color:#66d9ef">string</span>&gt; GetTokenAsync(HttpClient client)
+        {
+            <span style="color:#75715e">// POST token endpoint
+</span><span style="color:#75715e"></span>            <span style="color:#66d9ef">var</span> request = <span style="color:#66d9ef">new</span> HttpRequestMessage(HttpMethod.Post, <span style="color:#e6db74">&#34;https://localhost:44337/connect/token&#34;</span>);
+            <span style="color:#75715e">// 指定用戶端認證方式為 client credentials
+</span><span style="color:#75715e"></span>            <span style="color:#75715e">// 設定 clientid/clientsecret
+</span><span style="color:#75715e"></span>            request.Content = <span style="color:#66d9ef">new</span> FormUrlEncodedContent(<span style="color:#66d9ef">new</span> Dictionary&lt;<span style="color:#66d9ef">string</span>, <span style="color:#66d9ef">string</span>&gt;
+            {
+<span style="color:#a6e22e">                [&#34;grant_type&#34;]</span> = <span style="color:#e6db74">&#34;client_credentials&#34;</span>,
+<span style="color:#a6e22e">                [&#34;client_id&#34;]</span> = <span style="color:#e6db74">&#34;my-console-app&#34;</span>,
+<span style="color:#a6e22e">                [&#34;client_secret&#34;]</span> = <span style="color:#e6db74">&#34;388D45FA-B36B-4988-BA59-B187D329C207&#34;</span>
+            });
+
+            <span style="color:#66d9ef">var</span> response = <span style="color:#66d9ef">await</span> client.SendAsync(request, HttpCompletionOption.ResponseContentRead);
+
+            <span style="color:#66d9ef">var</span> payload = <span style="color:#66d9ef">await</span> response.Content.ReadFromJsonAsync&lt;OpenIddictResponse&gt;();
+
+            <span style="color:#66d9ef">if</span> (!<span style="color:#66d9ef">string</span>.IsNullOrEmpty(payload.Error))
+            {
+                <span style="color:#66d9ef">throw</span> <span style="color:#66d9ef">new</span> InvalidOperationException(<span style="color:#e6db74">&#34;An error occurred while retrieving an access token.&#34;</span>);
+            }
+            <span style="color:#75715e">// 將取得的 access token 回傳
+</span><span style="color:#75715e"></span>            <span style="color:#66d9ef">return</span> payload.AccessToken;
+        }
+
+        <span style="color:#75715e">// 呼叫 Resource Server weatherforecast endpoint
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">async</span> Task&lt;<span style="color:#66d9ef">string</span>&gt; GetResourceAsync(HttpClient client, <span style="color:#66d9ef">string</span> token)
+        {
+            <span style="color:#66d9ef">var</span> request = <span style="color:#66d9ef">new</span> HttpRequestMessage(HttpMethod.Get, <span style="color:#e6db74">&#34;https://localhost:44358/weatherforecast&#34;</span>);
+            <span style="color:#75715e">// 需帶入從 AuthServer 取得的 access token
+</span><span style="color:#75715e"></span>            request.Headers.Authorization = <span style="color:#66d9ef">new</span> AuthenticationHeaderValue(<span style="color:#e6db74">&#34;Bearer&#34;</span>, token);
+
+            <span style="color:#66d9ef">var</span> response = <span style="color:#66d9ef">await</span> client.SendAsync(request, HttpCompletionOption.ResponseContentRead);
+            response.EnsureSuccessStatusCode();
+
+            <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">await</span> response.Content.ReadAsStringAsync();
+        }
+    }
+}
+</code></pre></div><p>這樣我們就完成我們的 Client Console App 了。</p>
+<h2 id="整體測試">整體測試</h2>
+<p>接下來進行測試，首先先將 AuthServer 及 Resource Server 執行起來。
+確定都執行後，執行 ConsoleApp，並依照畫面指示操作，如果都正確無誤，你應該會看到下面的畫面。</p>
+<p><img src="Image007.png" alt="Test Result"></p>
+<h2 id="結論">結論</h2>
+<p>到目前為止，我們已經算是完成了既定的計畫，也就是建立了一個支援 Client Credentials Grant 的 Authentication Server，以及一個需要 Authentication Server 發出的 access token 才能存取的 Resource Server，另外，也完成了一個測試用的 Client Console App，可以透過觀察 Console 的輸出來了解整個流程。</p>
+
+
+		
+	</div>
+
+	<div class="pagination">
+		<a href="/posts/protect-api-with-client-credentials-grant-using-openiddict-part-1/" class="left arrow">&#8592;</a>
+
+		<a href="#" class="top">Top</a>
+	</div>
+</main>
+
+
+        		<footer>
+			
+			<span>
+			&copy; <time datetime="2021-08-03 11:44:28.8658525 &#43;0800 CST m=&#43;0.225402501">2021</time> wezmag. Made with <a href='https://gohugo.io'>Hugo</a> using the <a href='https://github.com/EmielH/tale-hugo/'>Tale</a> theme.
+			</span>
+		</footer>
+
+    </body>
+</html>

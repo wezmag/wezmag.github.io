@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Posts on My</title>
+    <link>https://my.hsinchuglass.tw/posts/</link>
+    <description>Recent content in Posts on My</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh</language>
+    <lastBuildDate>Mon, 02 Aug 2021 15:31:00 +0800</lastBuildDate><atom:link href="https://my.hsinchuglass.tw/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>使用 OpenIddict 建立一個支援 Client Credentials Grant 的 Authentication Server 來保護你的 Web API - Part 2</title>
+      <link>https://my.hsinchuglass.tw/posts/protect-api-with-client-credentials-grant-using-openiddict-part-2/</link>
+      <pubDate>Mon, 02 Aug 2021 15:31:00 +0800</pubDate>
+      
+      <guid>https://my.hsinchuglass.tw/posts/protect-api-with-client-credentials-grant-using-openiddict-part-2/</guid>
+      <description>本篇內容主要講解如何使用 OpenIddict 來建立一個支援 Client Credentials Grant 的 OAuth Authentication Server 來保護你的 Web API。
+內容將會分成兩個部分，第一部分包含方案說明，以及建立 Authentication Server 專案，第二部分則會建立一個 Resource Server (Web API) 專案，及一個 Console App 作為 Client。</description>
+    </item>
+    
+    <item>
+      <title>使用 OpenIddict 建立一個支援 Client Credentials Grant 的 Authentication Server 來保護你的 Web API - Part 1</title>
+      <link>https://my.hsinchuglass.tw/posts/protect-api-with-client-credentials-grant-using-openiddict-part-1/</link>
+      <pubDate>Fri, 30 Jul 2021 12:00:00 +0800</pubDate>
+      
+      <guid>https://my.hsinchuglass.tw/posts/protect-api-with-client-credentials-grant-using-openiddict-part-1/</guid>
+      <description>本篇內容主要講解如何使用 OpenIddict 來建立一個支援 Client Credentials Grant 的 OAuth Authentication Server 來保護你的 Web API。
+內容將會分成兩個部分，第一部分包含方案說明，以及建立 Authentication Server 專案，第二部分則會建立一個 Resource Server (Web API) 專案，及一個 Console App 作為 Client。</description>
+    </item>
+    
+    <item>
+      <title>使用 FOR XML PATH 進行資料合併</title>
+      <link>https://my.hsinchuglass.tw/posts/combine-data-using-for-xml-path/</link>
+      <pubDate>Tue, 27 Jul 2021 11:03:09 +0800</pubDate>
+      
+      <guid>https://my.hsinchuglass.tw/posts/combine-data-using-for-xml-path/</guid>
+      <description>本篇教你如何使用 FOR XML PATH 的 T-SQL 指定進行資料合併</description>
+    </item>
+    
+  </channel>
+</rss>
