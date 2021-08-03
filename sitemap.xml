@@ -2,36 +2,36 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>https://my.hsinchuglass.tw/tags/client-credentials-grant/</loc>
+    <loc>https://wezmag.github.io/tags/client-credentials-grant/</loc>
     <lastmod>2021-08-02T15:31:00+08:00</lastmod>
   </url><url>
-    <loc>https://my.hsinchuglass.tw/</loc>
+    <loc>https://wezmag.github.io/</loc>
     <lastmod>2021-08-02T15:31:00+08:00</lastmod>
   </url><url>
-    <loc>https://my.hsinchuglass.tw/tags/oauth/</loc>
+    <loc>https://wezmag.github.io/tags/oauth/</loc>
     <lastmod>2021-08-02T15:31:00+08:00</lastmod>
   </url><url>
-    <loc>https://my.hsinchuglass.tw/tags/openiddict/</loc>
+    <loc>https://wezmag.github.io/tags/openiddict/</loc>
     <lastmod>2021-08-02T15:31:00+08:00</lastmod>
   </url><url>
-    <loc>https://my.hsinchuglass.tw/posts/</loc>
+    <loc>https://wezmag.github.io/posts/</loc>
     <lastmod>2021-08-02T15:31:00+08:00</lastmod>
   </url><url>
-    <loc>https://my.hsinchuglass.tw/tags/</loc>
+    <loc>https://wezmag.github.io/tags/</loc>
     <lastmod>2021-08-02T15:31:00+08:00</lastmod>
   </url><url>
-    <loc>https://my.hsinchuglass.tw/posts/protect-api-with-client-credentials-grant-using-openiddict-part-2/</loc>
+    <loc>https://wezmag.github.io/posts/protect-api-with-client-credentials-grant-using-openiddict-part-2/</loc>
     <lastmod>2021-08-02T15:31:00+08:00</lastmod>
   </url><url>
-    <loc>https://my.hsinchuglass.tw/posts/protect-api-with-client-credentials-grant-using-openiddict-part-1/</loc>
+    <loc>https://wezmag.github.io/posts/protect-api-with-client-credentials-grant-using-openiddict-part-1/</loc>
     <lastmod>2021-07-30T12:00:00+08:00</lastmod>
   </url><url>
-    <loc>https://my.hsinchuglass.tw/tags/sql/</loc>
+    <loc>https://wezmag.github.io/tags/sql/</loc>
     <lastmod>2021-07-27T11:03:09+08:00</lastmod>
   </url><url>
-    <loc>https://my.hsinchuglass.tw/posts/combine-data-using-for-xml-path/</loc>
+    <loc>https://wezmag.github.io/posts/combine-data-using-for-xml-path/</loc>
     <lastmod>2021-07-27T11:03:09+08:00</lastmod>
   </url><url>
-    <loc>https://my.hsinchuglass.tw/categories/</loc>
+    <loc>https://wezmag.github.io/categories/</loc>
   </url>
 </urlset>
